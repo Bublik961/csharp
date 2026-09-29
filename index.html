@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# — курс программирования | 2002–2006</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Tahoma, Verdana, Arial, sans-serif;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #000;
+            background: #ece9d8;
+            min-height: 100vh;
+        }
+
+        a {
+            color: #0000cc;
+            text-decoration: underline;
+        }
+
+        a:visited {
+            color: #551a8b;
+        }
+
+        a:active {
+            color: #ff0000;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 12px;
+        }
+
+        /* ===== HEADER (XP Title Bar style) ===== */
+        .site-header {
+            background: linear-gradient(180deg,
+                #0997ff 0%,
+                #0053ee 8%,
+                #0050ee 40%,
+                #06f 88%,
+                #003ccc 100%);
+            padding: 0;
+            color: #fff;
+        }
+
+        .header-title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 8px;
+        }
+
+        .header-title-bar h1 {
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            letter-spacing: 0.3px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 2px;
+        }
+
+        .header-buttons span {
+            display: inline-block;
+            width: 21px;
+            height: 21px;
+            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 3px;
+            font-size: 11px;
+            line-height: 19px;
+            text-align: center;
+            color: #fff;
+            background: linear-gradient(180deg, #3d8bff 0%, #0050ee 100%);
+        }
+
+        .header-subtitle {
+            background: linear-gradient(180deg, #f5f3ec 0%, #ece9d8 100%);
+            border-top: 1px solid #aca899;
+            padding: 6px 12px;
+            color: #333;
+            font-size: 12px;
+        }
+
+        /* ===== NAVIGATION (XP Tab style) ===== */
+        .site-nav {
+            background: #ece9d8;
+            border-bottom: 1px solid #aca899;
+            padding: 4px 0 0 0;
+        }
+
+        .site-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2px;
+            padding-left: 4px;
+        }
+
+        .site-nav li {
+            display: inline-block;
+        }
+
+        .site-nav a {
+            display: block;
+            padding: 4px 16px;
+            font-size: 12px;
+            color: #000;
+            text-decoration: none;
+            background: linear-gradient(180deg, #faf8f1 0%, #ece9d8 100%);
+            border: 1px solid #aca899;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            padding: 16px 0 32px;
+            background: #ece9d8;
+        }
+
+        /* ===== SECTION (XP Window style) ===== */
+        .section {
+            background: #fff;
+            border: 1px solid #0058e6;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(180deg,
+                #0997ff 0%,
+                #0053ee 8%,
+                #0050ee 40%,
+                #06f 88%,
+                #003ccc 100%);
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-header h2 {
+            font-size: 13px;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+        }
+
+        .section-header .section-number {
+            display: inline-block;
+            min-width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: #003ccc;
+            background: linear-gradient(180deg, #fff 0%, #d4d0c8 100%);
+            border-radius: 3px;
+        }
+
+        .section-body {
+            padding: 12px 16px;
+            border-top: 1px solid #d4d0c8;
+        }
+
+        .section-body p {
+            margin-bottom: 10px;
+        }
+
+        .section-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-section .section-body {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-image {
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .hero-image img {
+            max-width: 180px;
+            border: 2px solid #d4d0c8;
+            border-radius: 4px;
+        }
+
+        /* ===== COURSE PROGRAM LIST ===== */
+        .program-list {
+            list-style: none;
+            counter-reset: program;
+        }
+
+        .program-list li {
+            counter-increment: program;
+            padding: 6px 0 6px 30px;
+            position: relative;
+            border-bottom: 1px dotted #d4d0c8;
+        }
+
+        .program-list li:last-child {
+            border-bottom: none;
+        }
+
+        .program-list li::before {
+            content: counter(program);
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(180deg, #3d8bff 0%, #0050ee 100%);
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== SCHEDULE TABLE ===== */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .schedule-item {
+            background: #f5f3ec;
+            border: 1px solid #d4d0c8;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .schedule-item .label {
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .schedule-item .value {
+            font-size: 13px;
+            font-weight: bold;
+            color: #000;
+            margin-top: 2px;
+        }
+
+        .cd-image {
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .cd-image img {
+            max-width: 100px;
+        }
+
+        /* ===== CERTIFICATION ===== */
+        .cert-section .section-body {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .cert-text {
+            flex: 1;
+        }
+
+        .cert-image {
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .cert-image img {
+            max-width: 160px;
+            border: 2px solid #d4d0c8;
+            border-radius: 4px;
+        }
+
+        /* ===== FOOTER (XP Status Bar style) ===== */
+        .site-footer {
+            background: #ece9d8;
+            border-top: 1px solid #aca899;
+            padding: 6px 0;
+            font-size: 11px;
+            color: #333;
+        }
+
+        .site-footer .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .hero-section .section-body,
+            .cert-section .section-body {
+                flex-direction: column;
+            }
+
+            .hero-image,
+            .cert-image {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+        <div class="header-title-bar">
+            <h1>C# — курс программирования</h1>
+            <div class="header-buttons">
+                <span>_</span>
+                <span>□</span>
+                <span>×</span>
+            </div>
+        </div>
+        <div class="header-subtitle">
+            Набор 2002–2006 | Группа №30 | Преподаватель: Смирнов А.В.
+        </div>
+    </header>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="site-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#preview">О курсе</a></li>
+                <li><a href="#why">Зачем C#</a></li>
+                <li><a href="#program">Программа</a></li>
+                <li><a href="#schedule">Расписание</a></li>
+                <li><a href="#certification">Сертификация</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN ===== -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- Блок 01: Превью -->
+            <section class="section hero-section" id="preview">
+                <div class="section-header">
+                    <span class="section-number">01</span>
+                    <h2>О курсе</h2>
+                </div>
+                <div class="section-body">
+                    <div class="hero-text">
+                        <p><b>Освойте C# — язык, который выбрал Microsoft для будущего Windows!</b></p>
+                        <p>Вы пишете на C++, Visual Basic 6 или Java? Пора двигаться дальше! Платформа .NET уже здесь, и она меняет правила игры. Присоединяйтесь к тем, кто строит завтрашнюю разработку уже сегодня.</p>
+                        <p>Наш курс — это прямой путь в мир современной разработки. Никакой воды — только практика на реальных проектах, только актуальные технологии, только результат.</p>
+                    </div>
+                    <div class="hero-image">
+                        <img src="assets/images/winxp.gif" alt="">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Блок 02: Зачем C# -->
+            <section class="section" id="why">
+                <div class="section-header">
+                    <span class="section-number">02</span>
+                    <h2>Зачем C#</h2>
+                </div>
+                <div class="section-body">
+                    <p><b>C# — это стратегический выбор Microsoft.</b> Язык, созданный как ответ на Java, но с одной важной разницей: он нативно интегрирован с Windows. Это значит максимальную производительность, полный доступ к API и никаких компромиссов.</p>
+                    <p>Microsoft вкладывает в C# и .NET миллионы долларов. Это не эксперимент — это фундамент всей экосистемы Windows. И вы можете стать частью этого фундамента уже сейчас.</p>
+                    <p><b>Что вы получаете, выбрав C#:</b></p>
+                    <ul style="margin: 6px 0 10px 20px;">
+                        <li>Единая платформа .NET вместо хаоса COM, MFC и VB6</li>
+                        <li>Автоматическая сборка мусора — забудьте об утечках памяти</li>
+                        <li>Строгая типизация — ошибки ловятся на этапе компиляции</li>
+                        <li>Синтаксис, близкий к C++ и Java — переход займёт минимум времени</li>
+                        <li>Visual Studio .NET — лучшая IDE для Windows-разработки</li>
+                    </ul>
+                    <p>Компании переходят на .NET прямо сейчас. Разработчики, знающие C#, востребованы как никогда. Не упустите свой шанс — начните сейчас!</p>
+                </div>
+            </section>
+
+            <!-- Блок 03: Программа курса -->
+            <section class="section" id="program">
+                <div class="section-header">
+                    <span class="section-number">03</span>
+                    <h2>Программа курса</h2>
+                </div>
+                <div class="section-body">
+                    <p><b>Программа, которая работает на вашу карьеру.</b> Каждый модуль — это конкретный навык, который вы сможете применить на практике сразу после обучения.</p>
+                    <ol class="program-list">
+                        <li>Основы C# и объектно-ориентированного программирования — фундамент, на котором всё строится</li>
+                        <li>Windows Forms — создавайте оконные приложения, за которые не стыдно</li>
+                        <li>ASP.NET — веб-приложения и сервисы для реального бизнеса</li>
+                        <li>ADO.NET — работа с базами данных на уровне предприятия</li>
+                        <li>Подготовка к сертификации MCSD/MCAD — подтвердите свою квалификацию</li>
+                    </ol>
+                    <p>Всё, что нужно для старта в профессии. Ничего лишнего.</p>
+                </div>
+            </section>
+
+            <!-- Блок 04: Расписание -->
+            <section class="section" id="schedule">
+                <div class="section-header">
+                    <span class="section-number">04</span>
+                    <h2>Формат занятий и расписание</h2>
+                </div>
+                <div class="section-body">
+                    <p><b>Учитесь в комфортном ритме.</b> Мы продумали всё, чтобы вы получили максимум знаний без стресса и перегрузок.</p>
+                    <div class="schedule-grid">
+                        <div class="schedule-item">
+                            <div class="label">Формат</div>
+                            <div class="value">Очные занятия</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="label">Частота</div>
+                            <div class="value">4 раза в неделю</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="label">Длительность</div>
+                            <div class="value">3 месяца</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="label">Группа</div>
+                            <div class="value">до 10 человек</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="label">Уровень</div>
+                            <div class="value">Начальный</div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="label">Материалы</div>
+                            <div class="value">CD-диск</div>
+                        </div>
+                    </div>
+                    <div class="cd-image">
+                        <img src="assets/images/cd.gif" alt="">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Блок 05: Сертификация -->
+            <section class="section cert-section" id="certification">
+                <div class="section-header">
+                    <span class="section-number">05</span>
+                    <h2>Сертификация</h2>
+                </div>
+                <div class="section-body">
+                    <div class="cert-text">
+                        <p><b>Получите сертификат, который говорит за вас.</b> MCSD и MCAD — это не просто буквы. Это знак качества, который работодатели ценят по всему миру.</p>
+                        <p>Microsoft Certified Solution Developer — это подтверждение того, что вы умеете не просто писать код, а проектировать решения. Это ваш пропуск в мир профессиональной разработки.</p>
+                        <p>Сдайте экзамен — и получите документ, который откроет двери в ведущие компании.</p>
+                    </div>
+                    <div class="cert-image">
+                        <img src="assets/images/microsoftcer.jpg" alt="">
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <div class="container">
+            <span>Курс программирования C# © 2002–2006</span>
+            <span>Группа №30</span>
+        </div>
+    </footer>
+
+</body>
+</html>
